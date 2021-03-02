@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>maplibre-grid</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@1.13.0-rc.5/dist/maplibre-gl.js"></script>
+  <link href="https://unpkg.com/maplibre-gl@1.13.0-rc.5/dist/maplibre-gl.css" rel="stylesheet">
+  <!-- <script src="https://unpkg.com/maplibre-grid@1.0.0/dist/maplibre-grid.js"></script> -->
+  <script src="../dist/maplibre-grid.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Lucida Grande', sans-serif;
+      font-size: 12px;
+    }
+    #map {
+      width: 100vw;
+      height: 100vh;
+    }
+    #info {
+      position: absolute;
+      top: 0;
+      left: 15px;
+      padding: 4px 8px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #eee;
+      backdrop-filter: blur(1px);
+    }
+    #info:empty {
+      display: none;
+    }
+    #info .divider {
+      height: 4px;
+    }
+    #info .grid-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-column-gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="info"></div>
+
+<script>
+function round(value) {
+  return Math.floor(value * 10 ** 6) / 10 ** 6;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const map = new maplibregl.Map({
+    container: 'map',
+    style: 'https://api.maptiler.com/maps/basic/style.json?key=HMltGRz8PKWAwluGWK0c', // maplibre-grid token
+    center: [14.42076, 50.08804],
+    zoom: 5,
+  });
+
+  // grids
+  const grid1 = new MaplibreGrid.Grid({
+    gridWidth: 80,
+    gridHeight: 80,
+    minZoom: 5,
+    maxZoom: 8,
+    units: 'kilometers',
+    paint: {
+      'line-opacity': 0.2
+    }
+  });
+  map.addControl(grid1);
+
+  const grid2 = new MaplibreGrid.Grid({
+    gridWidth: 3,
+    gridHeight: 3,
+    minZoom: 8,
+    maxZoom: 20,
+    units: 'kilometers',
+    paint: {
+      'line-opacity': 0.2
+    }
+  });
+  map.addControl(grid2);
+
+  const selectedCells = [];
+
+  // info
+  const info = document.getElementById('info');
+  const updateInfo = () => {
+    info.innerHTML = `
+      Center: ${round(map.getCenter().lng)}, ${round(map.getCenter().lat)}<br>
+      Zoom: ${round(map.getZoom())}
+      <div class="divider"></div>
+      Grid 1 active: ${grid1.active}<br>
+      Grid 2 active: ${grid2.active}
+      <div class="divider"></div>
+      Selected cells: ${selectedCells.length}<br>
+      <div class="grid-4">
+        ${selectedCells.map(x => x.geometry.bbox.map(y => `<span>${round(y)}</span>`)).flat().join('')}
+      </div>
+    `;
+  }
+  map.on('move', updateInfo);
+  map.on('zoom', updateInfo);
+  updateInfo();
+
+  // select cell
+  map.on('load', () => {
+    const selectedCellsId = 'selected-cells';
+    map.addSource(selectedCellsId, {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: selectedCells }
+    });
+    map.addLayer({
+      id: selectedCellsId,
+      source: selectedCellsId,
+      type: 'fill',
+      paint: {
+        'fill-color': '#0000ff',
+        'fill-opacity': 0.2,
+        'fill-outline-color': 'transparent'
+      }
+    });
+
+    map.on(MaplibreGrid.GRID_CLICK_EVENT, event => {
+      const bbox = event.bbox;
+
+      const cellIndex = selectedCells.findIndex(x => x.geometry.bbox.toString() === bbox.toString());
+      if (cellIndex === -1) {
+        const coordinates = [
+          [
+            [bbox[0], bbox[1]],
+            [bbox[2], bbox[1]],
+            [bbox[2], bbox[3]],
+            [bbox[0], bbox[3]],
+            [bbox[0], bbox[1]],
+          ]
+        ];
+        const cell = { type: 'Feature', geometry: { type: 'Polygon', bbox, coordinates }};
+        selectedCells.push(cell);
+      } else {
+        selectedCells.splice(cellIndex, 1);
+      }
+
+      const source = map.getSource(selectedCellsId);
+      source.setData({ type: 'FeatureCollection', features: selectedCells });
+
+      updateInfo();
+    });
+  });
+
+  // GUI
+  const grid1GuiConfig = { enabled: true };
+  const grid2GuiConfig = { enabled: true };
+
+  const updateGrid = (grid, gridGuiConfig) => {
+    if (gridGuiConfig.enabled) {
+      if (!map.hasControl(grid)) {
+        map.addControl(grid);
+      } else {
+        grid.update();
+      }
+    } else {
+      if (map.hasControl(grid)) {
+        map.removeControl(grid);
+      }
+    }
+
+    updateInfo();
+  };
+  const updateGrid1 = () => updateGrid(grid1, grid1GuiConfig);
+  const updateGrid2 = () => updateGrid(grid2, grid2GuiConfig);
+
+  const gui = new dat.GUI();
+  gui.width = 300;
+  const grid1Gui = gui.addFolder('Grid 1');
+  grid1Gui.add(grid1GuiConfig, 'enabled').onChange(updateGrid1);
+  grid1Gui.add(grid1.config, 'gridWidth', 0.1, 1000, 0.1).onChange(updateGrid1);
+  grid1Gui.add(grid1.config, 'gridHeight', 0.1, 1000, 0.1).onChange(updateGrid1);
+  grid1Gui.add(grid1.config, 'units', ['degrees', 'radians', 'miles', 'kilometers']).onChange(updateGrid1);
+  grid1Gui.add(grid1.config, 'minZoom', 0, 22, 0.1).onChange(updateGrid1);
+  grid1Gui.add(grid1.config, 'maxZoom', 0, 22, 0.1).onChange(updateGrid1);
+  grid1Gui.open();
+  const grid2Gui = gui.addFolder('Grid 2');
+  grid2Gui.add(grid2GuiConfig, 'enabled').onChange(updateGrid2);
+  grid2Gui.add(grid2.config, 'gridWidth', 0.1, 1000, 0.1).onChange(updateGrid2);
+  grid2Gui.add(grid2.config, 'gridHeight', 0.1, 1000, 0.1).onChange(updateGrid2);
+  grid2Gui.add(grid2.config, 'units', ['degrees', 'radians', 'miles', 'kilometers']).onChange(updateGrid2);
+  grid2Gui.add(grid2.config, 'minZoom', 0, 22, 0.1).onChange(updateGrid2);
+  grid2Gui.add(grid2.config, 'maxZoom', 0, 22, 0.1).onChange(updateGrid2);
+  grid2Gui.open();
+});
+</script>
+</body>
+</html>
