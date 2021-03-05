@@ -53,17 +53,17 @@ window.addEventListener('DOMContentLoaded', () => {
   const map = new maplibregl.Map({
     container: 'map',
     style: 'https://api.maptiler.com/maps/basic/style.json?key=HMltGRz8PKWAwluGWK0c', // maplibre-grid token
-    center: [14.42076, 50.08804],
-    zoom: 5,
+    center: [30, 0],
+    zoom: 0,
   });
 
   // grids
   const grid1 = new MaplibreGrid.Grid({
     gridWidth: 80,
     gridHeight: 80,
+    units: 'kilometers',
     minZoom: 5,
     maxZoom: 8,
-    units: 'kilometers',
     paint: {
       'line-opacity': 0.2
     }
@@ -73,9 +73,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const grid2 = new MaplibreGrid.Grid({
     gridWidth: 3,
     gridHeight: 3,
+    units: 'kilometers',
     minZoom: 8,
     maxZoom: 20,
-    units: 'kilometers',
     paint: {
       'line-opacity': 0.2
     }

@@ -6,7 +6,7 @@
     "maplibre",
     "grid"
   ],
-  "author": "?",
+  "author": "MapTiler Team <info@maptiler.com>",
   "license": "BSD",
   "repository": "github:maptiler/maplibre-grid",
   "main": "src/index.js",
