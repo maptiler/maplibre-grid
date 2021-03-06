@@ -91,7 +91,7 @@ map.addControl(grid2);
 ### Click event
 
 ```
-map.on(MaplibreGrid.GridClickEvent, event => {
+map.on(MaplibreGrid.GRID_CLICK_EVENT, event => {
   console.log(event.bbox);
 });
 ```
