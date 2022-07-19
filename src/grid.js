@@ -139,7 +139,7 @@ export class Grid {
     }
 
     const point = event.lngLat.toArray();
-    const bbox = getGridCell(point, this.config.gridWidth, this.config.gridWidth, this.config.units);
+    const bbox = getGridCell(point, this.config.gridWidth, this.config.gridHeight, this.config.units);
 
     /** @type {GridClickEvent} */
     const event2 = { bbox };
