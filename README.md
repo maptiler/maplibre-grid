@@ -1,6 +1,6 @@
 # maplibre-grid
 
-Grid / graticule plugin for MapLibre GL JS / Mapbox GL JS
+Grid / graticule plugin for [MapLibre GL JS](https://docs.maptiler.com/maplibre-gl-js/get-started/) / Mapbox GL JS
 
 [Demo](https://labs.maptiler.com/maplibre-grid/)
 
