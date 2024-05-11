@@ -1,25 +1,45 @@
 {
-  "name": "maplibre-grid",
-  "version": "1.0.0",
-  "description": "Grid / graticule plugin for MapLibre GL JS / Mapbox GL JS",
-  "keywords": [
-    "maplibre",
-    "grid"
-  ],
-  "author": "MapTiler Team <info@maptiler.com>",
-  "license": "BSD",
-  "repository": "github:maptiler/maplibre-grid",
-  "main": "src/index.js",
-  "browser": "dist/maplibre-grid.min.js",
-  "scripts": {
-    "build": "rimraf dist && rollup -c",
-    "dev": "rollup -c -w",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublishOnly": "npm run build"
-  },
+  "name": "dragmap",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
     "@turf/destination": "^6.3.0",
-    "@turf/distance": "^6.3.0"
+    "@turf/distance": "^6.3.0",
+    "mapbox-gl": "^2.13.0",
+    "maplibre-gl": "^2.4.0",
+    "maplibre-grid": "^1.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript-react": "^0.2.2",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
