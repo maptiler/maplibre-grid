@@ -1,105 +1,70 @@
-# maplibre-grid
+# Getting Started with Create React App
 
-Grid / graticule plugin for [MapLibre GL JS](https://docs.maptiler.com/maplibre-gl-js/get-started/) / Mapbox GL JS
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-[Demo](https://labs.maptiler.com/maplibre-grid/)
+## Available Scripts
 
-<img src="docs/screenshot@2x.jpg" alt="Screenshot" width="640" height="320">
+In the project directory, you can run:
 
-## Install
+### `npm start`
 
-```
-npm install maplibre-gl maplibre-grid
-```
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-or
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-```
-<script src="https://unpkg.com/maplibre-gl@1.13.0-rc.5/dist/maplibre-gl.js"></script>
-<link href="https://unpkg.com/maplibre-gl@1.13.0-rc.5/dist/maplibre-gl.css" rel="stylesheet">
-<script src="https://unpkg.com/maplibre-grid@1.0.0/dist/maplibre-grid.js"></script>
-```
+### `npm test`
 
-## Usage
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-```
-import Maplibre from 'maplibre-gl';
-import * as MaplibreGrid from 'maplibre-grid';
-```
+### `npm run build`
 
-### API
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-```
-export interface GridConfig {
-  gridWidth: number;
-  gridHeight: number;
-  units: Units;
-  minZoom?: number;
-  maxZoom?: number;
-  paint?: maplibregl.LinePaint;
-}
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-const grid = new MaplibreGrid.Grid(config: GridConfig);
-```
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-- `gridWidth` - number, **required**
-- `gridHeight` - number, **required**
-- `units` - 'degrees' | 'radians' | 'miles' | 'kilometers', grid width/height units, **required**
-- `minZoom` - number, min zoom to display the grid
-- `maxZoom` - number, max zoom to display the grid
-- `paint` - maplibregl.LinePaint, layer line paint properties
+### `npm run eject`
 
-Multiple grids can be added to display major and minor grid together, or different grids depending on zoom level.
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-### Basic
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```
-const grid = new MaplibreGrid.Grid({
-  gridWidth: 10,
-  gridHeight: 10,
-  units: 'degrees',
-  paint: {
-    'line-opacity': 0.2
-  }
-});
-map.addControl(grid);
-```
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-### Multiple grids
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-```
-const grid1 = new MaplibreGrid.Grid({
-  gridWidth: 10,
-  gridHeight: 10,
-  units: 'degrees',
-  paint: {
-    'line-opacity': 0.2
-  }
-});
-map.addControl(grid1);
+## Learn More
 
-const grid2 = new MaplibreGrid.Grid({
-  gridWidth: 5,
-  gridHeight: 5,
-  units: 'degrees',
-  paint: {
-    'line-opacity': 0.2
-  }
-});
-map.addControl(grid2);
-```
-### Click event
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-```
-map.on(MaplibreGrid.GRID_CLICK_EVENT, event => {
-  console.log(event.bbox);
-});
-```
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-Click event can be used to implement grid cell selection. Create a polygon feature from `event.bbox`, and add it to your custom layer. See [demo](https://labs.maptiler.com/maplibre-grid/) for details.
+### Code Splitting
 
-### Destroy
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-```
-map.removeControl(grid);
-```
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
