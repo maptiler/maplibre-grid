@@ -8,7 +8,7 @@ function App() {
   const map = React.useRef(null);
   const mapContainer = React.useRef(null);
   React.useEffect(() => {
-    mapboxgl.accessToken ="pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";  // add mapbox api key
+    mapboxgl.accessToken ="";  // add mapbox api key
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
