@@ -1,4 +1,4 @@
-<img src="https://www.maptiler.com/styles/style/logo/maptiler-logo-adaptive.svg?123#maptilerLogo" alt="Company Logo" height="32"/>
+<img src="https://docs.maptiler.com/assets/img/maptiler-logo.png" alt="Company Logo" height="32"/>
 
 # maplibre-grid
 
@@ -12,7 +12,7 @@ Grid / graticule plugin for [MapLibre GL JS](https://docs.maptiler.com/maplibre/
 
 ---
 
-> ⚠️ **DEPRECATED:** This repository is no longer actively maintained. Please consider using an alternative solution.
+> ⚠️ **DEPRECATED:** This repository is no longer actively maintained. Please consider using an alternative solution such as [MapTiler Grid](https://cloud.maptiler.com/tiles/grid/). You can see all the grid options in the [MapTiler Grid schema](https://docs.maptiler.com/schema/grid/).
 
 <br>
 
